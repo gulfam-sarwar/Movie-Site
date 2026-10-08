@@ -1,0 +1,35 @@
+ * { box-sizing: border-box; }
+body { margin: 0; background: #121212; color: #fff; font-family: 'Segoe UI', Arial, sans-serif; }
+.app { min-height: 100vh;
+    
+}
+
+.nav { display: flex; justify-content: space-between; align-items: center; height: 86px; padding: 0 20px; background: #232a37; }
+/* .logo { color: #00c853; font-weight: 800; font-style: italic; font-size: 26px; } */
+.logo { color: red; font-weight: 800; font-style: italic; font-size: 26px; }
+
+.nav nav { display: flex; align-items: center; gap: 20px; font-size: 14px; font-weight: 600; }
+.nav a { color: #fff; text-decoration: none; }
+.nav a.login { margin-left: 12px; }
+/* .nav a.register { color: #00c853; } */
+.nav a.register { color: #ff0000; }
+
+.searchbar { display: flex; gap: 8px; padding: 14px 20px; background: #161b26; border-bottom: 1px solid #2a3040; }
+.searchbar input { flex: 1; height: 40px; padding: 0 14px; background: #0c1220; color: #fff; border: 1px solid #2f3748; border-radius: 8px; }
+.searchbar select { height: 40px; padding: 0 12px; background: #161d2b; color: #fff; border: 1px solid #2f3748; border-radius: 8px; }
+.searchbar button { height: 40px; padding: 0 18px; border-radius: 8px; border: 1px solid #2f3748; cursor: pointer; font-weight: 600; }
+/* .btn-search { background: #00c853; color: #fff; border-color: #00c853; } */
+.btn-search { background: red; color: #fff; border-color: #00c853; }
+
+
+.btn-clear { background: transparent; color: #aab; }
+
+main { padding: 24px 30px; }
+main h2, main h3 { text-align: center; color: #ffc107; margin: 0 0 18px; font-size: 16px; }
+.msg { text-align: center; color: #aaa; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; margin-top: 24px; }
+.card img, .noimg { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 8px; background: #222; }
+.noimg { display: flex; align-items: center; justify-content: center; color: #777; }
+.title { margin-top: 10px; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.meta { margin-top: 4px; font-size: 12px; color: #888; }

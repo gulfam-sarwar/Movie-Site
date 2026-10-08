@@ -1,0 +1,96 @@
+.profile-card {
+  max-width: 440px;
+  margin: 60px auto;
+  padding: 32px;
+  text-align: center;
+  background: #1b2130;
+  border: 1px solid #2f3748;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.profile-card h1 {
+  margin: 14px 0 22px;
+  font-size: 22px;
+  color: #ffc107;
+}
+
+.profile-card .avatar {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00c853, #00a844);
+  color: #fff;
+  font-size: 34px;
+  font-weight: 700;
+  box-shadow: 0 0 0 4px rgba(0, 200, 83, 0.2);
+}
+
+.profile-card dl {
+  margin: 0 0 26px;
+  padding: 4px 16px 16px;
+  text-align: left;
+  background: #141a27;
+  border: 1px solid #2a3040;
+  border-radius: 10px;
+}
+
+.profile-card dt {
+  margin-top: 14px;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #8891a5;
+}
+
+.profile-card dd {
+  margin: 4px 0 0;
+  font-size: 15px;
+  color: #fff;
+  word-break: break-all;
+}
+
+.profile-card .gate-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.profile-card .gate-actions button {
+  height: 40px;
+  padding: 0 22px;
+  border: 1px solid #2f3748;
+  border-radius: 8px;
+  background: transparent;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.profile-card .gate-actions button:hover {
+  background: #232a37;
+}
+
+.profile-card .gate-actions .primary {
+  background: #00c853;
+  border-color: #00c853;
+}
+
+.profile-card .gate-actions .primary:hover {
+  background: #00b248;
+}
+
+@media (max-width: 500px) {
+  .profile-card {
+    margin: 30px 16px;
+    padding: 24px 18px;
+  }
+  .profile-card .gate-actions {
+    flex-direction: column;
+  }
+}
