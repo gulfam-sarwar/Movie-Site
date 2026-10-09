@@ -1,8 +1,8 @@
-
 import { useEffect, useState } from 'react';
 import '../App.css';
 import AuthForm from '../AuthForm';
 import ProfilePage from './ProfilePage';
+import MovieDetail from './MovieDetails';
 import { API_ROOT, refreshAccessToken } from '../auth';
 
 const API = `${API_ROOT}/movies`;
@@ -23,12 +23,14 @@ export default function Home() {
   const [accessToken, setAccessToken] = useState(null);
   const [user, setUser] = useState(null);
   const [booting, setBooting] = useState(true);
+  const [selectedId, setSelectedId] = useState(null);
 
-  async function authFetch(url) {
-    const send = (t) => fetch(url, { headers: { Authorization: `Bearer ${t}` } });
+  async function authFetch(url, options = {}) {
+    const send = (t) =>
+      fetch(url, { ...options, headers: { ...options.headers, Authorization: `Bearer ${t}` } });
     let res = await send(accessToken);
     if (res.status === 401) {
-      const fresh = await refreshAccessToken(); 
+      const fresh = await refreshAccessToken();
       setAccessToken(fresh);
       res = await send(fresh);
     }
@@ -67,6 +69,17 @@ export default function Home() {
     setView('movies');
   }
 
+  async function saveProfile(values) {
+    const res = await authFetch(`${API_ROOT}/auth/profile`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Could not save profile');
+    setUser(data.user);
+  }
+
   async function logout() {
     try {
       await fetch(`${API_ROOT}/auth/logout`, { method: 'POST', credentials: 'include' });
@@ -74,22 +87,24 @@ export default function Home() {
     setAccessToken(null);
     setUser(null);
     setFilters(EMPTY);
+    setSelectedId(null);
     setView('movies');
   }
 
   useEffect(() => {
     refreshAccessToken()
       .then(startSession)
-      .catch(() => {}) 
+      .catch(() => {})
       .finally(() => setBooting(false));
   }, []);
 
   useEffect(() => {
     if (user) load(EMPTY);
     else setMovies([]);
-  }, [user]);
+  }, [user?.id]);
 
   const go = (v) => (e) => { e.preventDefault(); setNotice(''); setView(v); };
+  const openMovie = (id) => { setSelectedId(id); setView('detail'); window.scrollTo(0, 0); };
   const switchAuth = (mode, text = '') => { setNotice(text); setView(mode); };
 
   const set = (key) => (e) => setFilters({ ...filters, [key]: e.target.value });
@@ -127,7 +142,16 @@ export default function Home() {
       <ProfilePage
         user={user}
         onBack={() => setView('movies')}
+        onSave={saveProfile}
         onLogout={logout}
+      />
+    );
+  } else if (view === 'detail' && selectedId) {
+    content = (
+      <MovieDetail
+        movieId={selectedId}
+        authFetch={authFetch}
+        onBack={() => setView('movies')}
       />
     );
   } else {
@@ -155,7 +179,14 @@ export default function Home() {
 
           <div className="grid">
             {movies.map((m) => (
-              <div className="card" key={m.id}>
+              <div
+                className="card"
+                key={m.id}
+                role="button"
+                tabIndex={0}
+                onClick={() => openMovie(m.id)}
+                onKeyDown={(e) => e.key === 'Enter' && openMovie(m.id)}
+              >
                 {m.cover ? <img src={m.cover} alt={m.title} /> : <div className="noimg">{m.title}</div>}
                 <div className="title">{m.title}</div>
                 <div className="meta">{m.year || '—'} • ★ {m.rating ?? 0}</div>
@@ -171,11 +202,20 @@ export default function Home() {
     <div className="app">
       <header className="nav">
         <div className="logo">NETFLIX</div>
-        <nav>
+        {/* <nav>
           <a href="#" onClick={go('movies')}>Home</a>
           <a href="#">4K</a>
           <a href="#">Trending</a>
-          <a href="#" onClick={go('movies')}>Browse Movies</a>
+          <a href="#" onClick={go('movies')}>Browse Movies</a> */}
+          <nav>
+          {user && (
+            <>
+              <a href="#" onClick={go('movies')}>Home</a>
+              <a href="#">4K</a>
+              <a href="#">Trending</a>
+              <a href="#" onClick={go('movies')}>Browse Movies</a>
+            </>
+          )}
           {!booting && (user ? (
             <>
               <a href="#" onClick={go('profile')}>Profile</a>

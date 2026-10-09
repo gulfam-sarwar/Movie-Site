@@ -1,0 +1,41 @@
+/* clickable movie cards on the home grid */
+.card { cursor: pointer; }
+.card:hover img, .card:focus-visible img { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0, 0, 0, 0.5); }
+.card img { transition: transform 0.15s, box-shadow 0.15s; }
+.card:focus-visible { outline: 2px solid #00c853; outline-offset: 4px; border-radius: 8px; }
+
+/* movie detail page */
+.md-page { max-width: 1100px; margin: 0 auto; padding: 24px 30px 60px; }
+.md-back { margin-bottom: 22px; padding: 0; background: none; border: none; color: #aab; font-size: 14px; cursor: pointer; }
+.md-back:hover { color: #fff; }
+
+.md-layout { display: grid; grid-template-columns: 300px 1fr; gap: 32px; }
+.md-poster img, .md-poster .noimg { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border-radius: 12px; background: #222; box-shadow: 0 12px 34px rgba(0, 0, 0, 0.5); }
+
+.md-info h1 { margin: 0; font-size: 34px; font-weight: 800; color: red; }
+.md-sub { margin: 8px 0 0; color: #7d8599; }
+
+.md-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.md-chips span { padding: 6px 14px; background: #1e2638; border-radius: 999px; font-size: 13px; }
+.md-genres span { background: transparent; border: 1px solid #ff0707; color: #aab; }
+
+.md-info section { margin-top: 28px; }
+.md-info h2 { margin: 0 0 10px; color:red; font-size: 20px; }
+.md-text { margin: 0; line-height: 1.7; color: #cfd3dc; }
+.md-hint { margin: 12px 0 0; padding: 10px 12px; background: #2b2412; color: #ffd666; border-radius: 8px; font-size: 13px; }
+.md-hint code { background: rgba(255, 255, 255, 0.1); padding: 1px 6px; border-radius: 4px; }
+
+.md-links { display: flex; gap: 12px; }
+.md-links a { padding: 9px 18px; background: #ff0202; color: #fff; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; }
+.md-links a + a { background: transparent; border: 1px solid #f80606; }
+
+.md-cast { list-style: none; margin: 0; padding: 0;color:red; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px 20px; }
+.md-cast li { font-size: 14px; color: #aab; }
+.md-cast strong { color: #fff; font-weight: 600; }
+
+@media (max-width: 760px) {
+  .md-page { padding: 18px 16px 40px; }
+  .md-layout { grid-template-columns: 1fr; }
+  .md-poster { max-width: 260px; margin: 0 auto; }
+  .md-info h1 { font-size: 26px; }
+}

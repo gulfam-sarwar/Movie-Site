@@ -11,7 +11,7 @@ const DB_CONFIG = {
 };
 
 const API_BASE = 'https://movies-api.accel.li/api/v2';
-const MOVIE_LIMIT = 30;
+const MOVIE_LIMIT = 300;
 const DELAY_MS = 300;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
