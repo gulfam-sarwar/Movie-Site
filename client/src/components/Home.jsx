@@ -79,7 +79,34 @@ export default function Home() {
     if (!res.ok) throw new Error(data.message || 'Could not save profile');
     setUser(data.user);
   }
+async function uploadAvatar(file) {
+  const body = new FormData();
+  body.append('avatar', file);
+  const res = await authFetch(`${API_ROOT}/auth/profile/avatar`, { method: 'POST', body });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Could not upload picture');
+  if (!data.user) throw new Error('Unexpected server response. Restart the API with the new api.js.');
+  setUser(data.user);
+}
 
+async function removeAvatar() {
+  const res = await authFetch(`${API_ROOT}/auth/profile/avatar`, { method: 'DELETE' });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Could not remove picture');
+  if (!data.user) throw new Error('Unexpected server response. Restart the API with the new api.js.');
+  setUser(data.user);
+}
+
+async function changePassword(values) {
+  const res = await authFetch(`${API_ROOT}/auth/change-password`, {
+    method: 'POST',
+    credentials: 'include', 
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(values),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.message || 'Could not change password');
+}
   async function logout() {
     try {
       await fetch(`${API_ROOT}/auth/logout`, { method: 'POST', credentials: 'include' });
@@ -139,10 +166,13 @@ export default function Home() {
     );
   } else if (view === 'profile') {
     content = (
-      <ProfilePage
+     <ProfilePage
         user={user}
         onBack={() => setView('movies')}
         onSave={saveProfile}
+        onUploadAvatar={uploadAvatar}
+        onRemoveAvatar={removeAvatar}
+        onChangePassword={changePassword}
         onLogout={logout}
       />
     );
@@ -202,11 +232,7 @@ export default function Home() {
     <div className="app">
       <header className="nav">
         <div className="logo">NETFLIX</div>
-        {/* <nav>
-          <a href="#" onClick={go('movies')}>Home</a>
-          <a href="#">4K</a>
-          <a href="#">Trending</a>
-          <a href="#" onClick={go('movies')}>Browse Movies</a> */}
+
           <nav>
           {user && (
             <>
@@ -233,6 +259,15 @@ export default function Home() {
       </header>
 
       {content}
+      {/* <ProfilePage
+        user={user}
+        onBack={() => setView('movies')}
+        onSave={saveProfile}
+        onUploadAvatar={uploadAvatar}
+        onRemoveAvatar={removeAvatar}
+        onChangePassword={changePassword}
+        onLogout={logout}
+      /> */}
     </div>
   );
 }

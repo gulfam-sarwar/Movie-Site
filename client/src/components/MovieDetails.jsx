@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { API_ROOT } from '../auth';
 import './MovieDetail.css';
 
-// Shows one movie. All data comes from the erdtesting database through
-// GET /api/movies/:id on your backend (nothing is fetched from YTS here).
+
 export default function MovieDetails({ movieId, authFetch, onBack }) {
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,7 +24,7 @@ export default function MovieDetails({ movieId, authFetch, onBack }) {
       } catch (e) {
         if (cancelled) return;
         if (e.message === 'Refresh failed') setError('Your session expired. Please log in again.');
-        else if (e instanceof TypeError) setError('Could not reach the server. Is the API running on port 5000?');
+        else if (e instanceof TypeError) setError('Could not reach the server.');
         else setError(e.message || 'Could not load movie details.');
       } finally {
         if (!cancelled) setLoading(false);
